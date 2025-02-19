@@ -1,0 +1,47 @@
+<div className="w-full p-2 flex flex-col">
+                    {/* <SearchPostsPage /> */}
+                    {/* {JSON.stringify(allPosts)} */}
+
+                    <div className="w-auto p-4">
+                        {
+                            (allPosts.nodes).map(item => {
+                                return (
+                                    <Link href={`/posts/${item.slug}`}>
+                                        <div key={item.id} className="p-2 mb-3">
+                                            {/* <p>{new Date(item.date).toLocaleDateString("de-De")}</p> */}
+                                            <p>{item.date}</p>
+                                            <p>{item.excerpt}</p>
+
+                                        </div>
+                                    </Link>
+                                )
+                            })
+                        }
+                    </div>
+
+                    <div className="w-auto p-4">
+                        <div key={(allPosts.pageInfo).id} className="p-2 mb-3">
+                            <p>endCursor: {(allPosts.pageInfo).endCursor}</p>
+                            <p>hasNextPage: {(allPosts.pageInfo).hasNextPage}</p>
+                            <p>hasPreviousPage: {(allPosts.pageInfo).hasPreviousPage}</p>
+                            <p>startCursor: {(allPosts.pageInfo).startCursor}</p>
+                        </div>
+                    </div>
+
+
+
+                    {/* <div className="w-auto">
+                        {
+                            nodes.map(item => {
+                                return (
+                                    <Link key={item.id} href={`/posts/${item.slug}`} className="border-b py-4 flex justify-between">
+                                        <div dangerouslySetInnerHTML={{ __html: item.title }}></div>
+                                        <p>{new Date(item.date).toLocaleDateString("de-De")}</p>
+                                        <p>{item.nodes.title}</p>
+                                    </Link>
+                                )
+                            })
+                        }
+                    </div> */}
+
+                </div>
