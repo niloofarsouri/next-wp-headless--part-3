@@ -73,10 +73,10 @@ export async function getAllPosts(
 
 
 
-export async function getPostBySlug() {
+export async function getPostBySlug(slug) {
   const postSlugQuery = gql`
-    query MyQuery2 {
-      post(id: "", idType: DATABASE_ID) {
+    query postSlug($slug: ID!) {
+      post(id: $slug, idType: SLUG) {
         id
         title
         content
@@ -99,7 +99,7 @@ export async function getPostBySlug() {
       }
     }
     `
-
-  const data = await client.request(postSlugQuery)
+  const variabels = { slug }
+  const data = await client.request(postSlugQuery, variabels)
   return data.post;
 }
