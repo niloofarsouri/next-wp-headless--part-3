@@ -33,10 +33,13 @@ export async function getAllPosts(
   searchCategory = '',
   params = { before: null, after: null }
 ) {
+  const hasSearchValue = searchValue && searchValue.trim() !== '';
+  const hasSearchCategory = searchCategory && searchCategory.trim() !== '';
+  const isPrevious = !!params.before;
 
   const postQuery = gql`
-    query getAllPosts {
-      posts(before: "", after: "") {
+    query getAllPosts($after: String = "", $before: String = "") {
+      posts(before: $before, after: $after) {
         nodes {
           date
           excerpt(format: RENDERED)
@@ -61,7 +64,22 @@ export async function getAllPosts(
     }
     `;
 
-  const dataPosts = await client.request(postQuery, params)
+
+  const variabels = {
+    ...(isPrevious
+      ? { before: params.before }
+      : { after: params.after })
+  }
+
+  if (hasSearchValue) {
+    variabels.search = searchValue;
+  }
+
+  if (hasSearchCategory) {
+    variabels.categories = searchCategory;
+  }
+
+  const dataPosts = await client.request(postQuery, variabels)
   return {
     nodes: dataPosts.posts.nodes,
     pageInfo: dataPosts.posts.pageInfo,
