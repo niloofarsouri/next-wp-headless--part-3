@@ -29,17 +29,34 @@ export async function getCategories() {
 
 
 export async function getAllPosts(
-  searchValue = '',
-  searchCategory = '',
+  searchValue,
+  searchCategory,
   params = { before: null, after: null }
 ) {
   const hasSearchValue = searchValue && searchValue.trim() !== '';
   const hasSearchCategory = searchCategory && searchCategory.trim() !== '';
   const isPrevious = !!params.before;
 
+  const variableDefinition = [
+    isPrevious ? '$before: String' : '$after: String',
+    hasSearchValue ? '$search: String' : '',
+    hasSearchCategory ? '$categories: String' : '',
+  ].filter(Boolean).join(', ')
+
+  const whereConditions = [
+    hasSearchValue ? 'search: $search' : '',
+    hasSearchCategory ? 'categories: $categories' : '',
+  ].filter(Boolean);
+
+  const whereClause = whereConditions.length > 0 ?
+    `where: {${whereConditions.join(',')}}`
+    : '';
+
   const postQuery = gql`
-    query getAllPosts($after: String = "", $before: String = "") {
-      posts(before: $before, after: $after) {
+    query getAllPosts(${variableDefinition}) {
+      posts(${isPrevious ? 'before: $before' : 'after: $after'},
+            ${whereClause}
+      ) {
         nodes {
           date
           excerpt(format: RENDERED)
@@ -68,7 +85,10 @@ export async function getAllPosts(
   const variabels = {
     ...(isPrevious
       ? { before: params.before }
-      : { after: params.after })
+      : { after: params.after }),
+    // searchValue,
+    // searchCategory
+
   }
 
   if (hasSearchValue) {

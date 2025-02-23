@@ -1,14 +1,16 @@
 import Categories from "@/components/categories/index";
 // import LatestPost from "@/components/latest-post";
 import SearchBar from "@/components/search";
-import { getAllPosts, getCategories } from "@/lib/queries";
+import { getCategories } from "@/lib/queries";
 
 
 
 export default async function Home() {
 
   const categories = await getCategories()
-  // const posts = await getAllPosts()
+  // const { nodes, pageInfo } = await getAllPosts()
+
+  // const latestPostProps = {nodes,pageInfo}
 
   return (
     <>
@@ -26,7 +28,7 @@ export default async function Home() {
         </div>
 
         {/* <div>
-          <LatestPost posts={posts} />
+          <LatestPost latestPostProps={latestPostProps} />
         </div> */}
       </div>
     </>

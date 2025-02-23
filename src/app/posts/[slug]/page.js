@@ -15,7 +15,6 @@ async function Post({ params }) {
     return (
         <>
             <h1 className="text-3xl text-center">hi from single post</h1>
-            {/* <p>{postId}</p> */}
             {JSON.stringify(slugPost)}
         </>
     )

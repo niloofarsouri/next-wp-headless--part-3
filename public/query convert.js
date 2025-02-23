@@ -7,28 +7,28 @@ export async function getAllPosts(
     const hasSearchCategory = searchCategory && searchCategory.trim() !== '';
     const isPrevious = !!params.before;
 
-    const variableDefinitions = [
-        '$perpage: Int!',
-        isPrevious ? '$before: String' : '$after: String',
-        hasSearchValue ? '$search: String' : '',
-        hasSearchCategory ? '$categorySlug: String' : '',
-    ].filter(Boolean).join(',');
+    // const variableDefinitions = [
+    //     '$perpage: Int!',
+    //     isPrevious ? '$before: String' : '$after: String',
+    //     hasSearchValue ? '$search: String' : '',
+    //     hasSearchCategory ? '$categorySlug: String' : '',
+    // ].filter(Boolean).join(',');
 
-    const whereConditions = [
-        hasSearchValue ? 'search: $search' : '',
-        hasSearchCategory ? 'categoryName: $categorySlug' : '',
-    ].filter(Boolean);
+    // const whereConditions = [
+    //     hasSearchValue ? 'search: $search' : '',
+    //     hasSearchCategory ? 'categoryName: $categorySlug' : '',
+    // ].filter(Boolean);
 
-    const whereClause = whereConditions.length > 0 ?
-        `where: {${whereConditions.join(',')}}`
-        : '';
+    // const whereClause = whereConditions.length > 0 ?
+    //     `where: {${whereConditions.join(',')}}`
+    //     : '';
 
     const query = gql`
         query GetPosts(${variableDefinitions}) {
             posts(
                 ${isPrevious ? 'last: $perPage' : 'first: $perPage'},
                 ${isPrevious ? 'before: $before' : 'after: $after'},
-                ${whereClause}
+                // ${whereClause}
             ) {
                 nodes {
                     date

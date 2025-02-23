@@ -8,7 +8,7 @@ import { getAllPosts } from "@/lib/queries"
 async function Posts(props) {
 
     const searchParams = await props.searchParams
-    console.log(searchParams) 
+    console.log(searchParams) //{search : css}
 
     const searchValue = searchParams.search
     const searchCategory = searchParams.categories
@@ -16,6 +16,8 @@ async function Posts(props) {
 
     const before = searchParams.before
     const after = searchParams.after
+    console.log(before,after)
+
 
     //get all posts
 
